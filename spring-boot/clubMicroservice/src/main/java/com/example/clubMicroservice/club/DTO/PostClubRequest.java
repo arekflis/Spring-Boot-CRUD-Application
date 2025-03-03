@@ -15,10 +15,10 @@ public class PostClubRequest {
     @NotBlank(message = "Name is a required field")
     private String name;
 
-    @NotBlank(message = "YearOfFoundation is a required field")
+    @NotNull(message = "YearOfFoundation is a required field")
     @Min(value = 1800, message = "YearOfFoundation should be greater than 1800")
     @Max(value = 2025, message = "YearOfFoundation should be lower than 2025")
-    private int yearOfFoundation;
+    private Integer yearOfFoundation;
 
     @NotBlank(message = "Ground is a required field")
     private String ground;

@@ -13,7 +13,7 @@ public class RequestToClubFunction implements Function<PostClubRequest, Club> {
     public Club apply(PostClubRequest postClubRequest){
         return Club.builder()
                 .name(postClubRequest.getName())
-                .yearOfFoundation(postClubRequest.getYearOfFoundation())
+                .yearOfFoundation(postClubRequest.getYearOfFoundation().intValue())
                 .ground(postClubRequest.getGround())
                 .city(postClubRequest.getCity())
                 .nickname(postClubRequest.getNickname())

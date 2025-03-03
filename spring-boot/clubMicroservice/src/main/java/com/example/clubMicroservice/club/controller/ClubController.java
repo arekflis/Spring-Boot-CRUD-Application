@@ -10,14 +10,14 @@ import com.example.clubMicroservice.functions.ClubToResponseFunction;
 import com.example.clubMicroservice.functions.ClubsToResponseFunction;
 import com.example.clubMicroservice.functions.RequestToClubFunction;
 import com.example.clubMicroservice.functions.UpdateClubWithRequestFunction;
-import com.example.clubMicroservice.specifications.ClubSpecifications;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,6 +27,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/clubs")
+@Validated
 public class ClubController {
 
     private final ClubService clubService;
@@ -61,8 +62,8 @@ public class ClubController {
      * @return 200 OK - if the club is found and the club
      *         404 Not Found - if the club with this id does not exist
      */
-    @GetMapping("/id/{id}")
-    public ResponseEntity<GetClubResponse> getClubByID(@PathVariable("id") UUID clubID){
+    @GetMapping("/{id}")
+    public ResponseEntity<GetClubResponse> getClubByID(@PathVariable("id") @NotNull UUID clubID){
         return this.clubService.findClubByID(clubID)
                 .map(club -> ResponseEntity.ok(this.clubToResponseFunction.apply(club)))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The club does not exist"));
@@ -85,13 +86,7 @@ public class ClubController {
                                                      @Min(value = 1800, message = "YearOfFoundation should be greater than 1800")
                                                      @Max(value = 2025, message = "YearOfFoundation should be lower than 2025")
                                                      Integer yearOfFoundation){
-        Specification<Club> specification = Specification.where(null);
-
-        if (cityName != null) specification.and(Specification.where(ClubSpecifications.clubsFromCity(cityName)));
-
-        if (yearOfFoundation != null) specification.and(ClubSpecifications.clubsWithYearOfFoundationGreaterThan(yearOfFoundation.intValue()));
-
-        List<Club> clubs = this.clubService.findAll(specification);
+        List<Club> clubs = this.clubService.findClubs(cityName, yearOfFoundation);
 
         if (clubs.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No club is found");
         return ResponseEntity.ok(this.clubsToResponseFunction.apply(clubs));
@@ -107,8 +102,8 @@ public class ClubController {
      * @return 201 No Content - if the club is updated successfully,
      *         404 Not Found - if the club with this id does not exist
      */
-    @PatchMapping("/id/{id}")
-    public ResponseEntity<String> updateExistingClub(@PathVariable("id") UUID clubID, @RequestBody @Valid PatchClubRequest patchClubRequest){
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateExistingClub(@PathVariable("id") @NotNull UUID clubID, @RequestBody @Valid PatchClubRequest patchClubRequest){
         return this.clubService.findClubByID(clubID)
                 .map(club -> {
                     this.clubService.saveClub(this.updateClubWithRequestFunction.apply(club, patchClubRequest));
@@ -124,10 +119,10 @@ public class ClubController {
      *
      * @return 201 Created - if the club is successfully added
      */
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<String> addNewClub(@RequestBody @Valid PostClubRequest postClubRequest){
         this.clubService.saveClub(this.requestToClubFunction.apply(postClubRequest));
-        return ResponseEntity.created(URI.create("/api/clubs/id/{id}")).body("Club added successfully");
+        return ResponseEntity.created(URI.create("/api/clubs")).body("Club added successfully");
     }
 
 
@@ -140,7 +135,7 @@ public class ClubController {
      *         404 Not Found - if the club with this id does not exist
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClub(@PathVariable("id") UUID clubID){
+    public ResponseEntity<String> deleteClub(@PathVariable("id") @NotNull UUID clubID){
         return this.clubService.findClubByID(clubID)
                 .map(club -> {
                     this.clubService.deleteClub(clubID);

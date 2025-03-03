@@ -2,6 +2,7 @@ package com.example.clubMicroservice.club.service;
 
 import com.example.clubMicroservice.club.entity.Club;
 import com.example.clubMicroservice.club.repository.ClubRepository;
+import com.example.clubMicroservice.specifications.ClubSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -47,13 +48,21 @@ public class ClubService {
     /**
      * Function to find all the clubs with optional filters
      *
-     * @param spec - the specification containing optional filters to find specific clubs
+     * @param cityName - filter clubs by a specific city (optional)
+     *
+     * @param yearOfFoundation - filter clubs with a year of foundation greater than the given value (optional)
      *
      * @return List<Club> - a list of clubs matching the filters,
      *         or an empty list if no clubs match the given filters
      */
-    public List<Club> findAll(Specification<Club> spec){
-        return this.clubRepository.findAll(spec);
+    public List<Club> findClubs(String cityName, Integer yearOfFoundation){
+        Specification<Club> specification = Specification.where(null);
+
+        if (cityName != null) specification = specification.and(Specification.where(ClubSpecifications.clubsFromCity(cityName)));
+
+        if (yearOfFoundation != null) specification = specification.and(ClubSpecifications.clubsWithYearOfFoundationGreaterThan(yearOfFoundation.intValue()));
+
+        return this.clubRepository.findAll(specification);
     }
 
 
