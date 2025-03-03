@@ -23,12 +23,12 @@ public class ClubService {
 
 
     /**
-     * Function to delete a club by id.
+     * Function to delete a club.
      *
-     * @param clubID - the UUID of the club to be deleted
+     * @param club - the club to be deleted
      */
-    public void deleteClub(UUID clubID){
-        this.clubRepository.delete(this.clubRepository.findById(clubID).get());
+    public void deleteClub(Club club){
+        this.clubRepository.delete(club);
     }
 
 

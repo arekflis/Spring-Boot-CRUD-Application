@@ -13,7 +13,6 @@ import com.example.clubMicroservice.functions.UpdateClubWithRequestFunction;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +62,7 @@ public class ClubController {
      *         404 Not Found - if the club with this id does not exist
      */
     @GetMapping("/{id}")
-    public ResponseEntity<GetClubResponse> getClubByID(@PathVariable("id") @NotNull UUID clubID){
+    public ResponseEntity<GetClubResponse> getClubByID(@PathVariable("id") UUID clubID){
         return this.clubService.findClubByID(clubID)
                 .map(club -> ResponseEntity.ok(this.clubToResponseFunction.apply(club)))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The club does not exist"));
@@ -103,7 +102,7 @@ public class ClubController {
      *         404 Not Found - if the club with this id does not exist
      */
     @PatchMapping("/{id}")
-    public ResponseEntity<String> updateExistingClub(@PathVariable("id") @NotNull UUID clubID, @RequestBody @Valid PatchClubRequest patchClubRequest){
+    public ResponseEntity<String> updateExistingClub(@PathVariable("id") UUID clubID, @RequestBody @Valid PatchClubRequest patchClubRequest){
         return this.clubService.findClubByID(clubID)
                 .map(club -> {
                     this.clubService.saveClub(this.updateClubWithRequestFunction.apply(club, patchClubRequest));
@@ -135,10 +134,10 @@ public class ClubController {
      *         404 Not Found - if the club with this id does not exist
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClub(@PathVariable("id") @NotNull UUID clubID){
+    public ResponseEntity<String> deleteClub(@PathVariable("id") UUID clubID){
         return this.clubService.findClubByID(clubID)
                 .map(club -> {
-                    this.clubService.deleteClub(clubID);
+                    this.clubService.deleteClub(club);
                     return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Club deleted successfully");
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The club does not exist"));
