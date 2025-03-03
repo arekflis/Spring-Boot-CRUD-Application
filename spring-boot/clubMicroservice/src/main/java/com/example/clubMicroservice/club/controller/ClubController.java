@@ -82,8 +82,8 @@ public class ClubController {
     @GetMapping("")
     public ResponseEntity<GetClubsResponse> getClubs(@RequestParam(required = false) String cityName,
                                                      @RequestParam(required = false)
-                                                     @Min(value = 1800, message = "YearOfFoundation should be greater than 1800")
-                                                     @Max(value = 2025, message = "YearOfFoundation should be lower than 2025")
+                                                     @Min(value = 1800, message = "YearOfFoundation should be greater than 1799")
+                                                     @Max(value = 2025, message = "YearOfFoundation should be lower than 2026")
                                                      Integer yearOfFoundation){
         List<Club> clubs = this.clubService.findClubs(cityName, yearOfFoundation);
 

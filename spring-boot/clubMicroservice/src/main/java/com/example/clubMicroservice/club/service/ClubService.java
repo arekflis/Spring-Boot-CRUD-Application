@@ -2,6 +2,7 @@ package com.example.clubMicroservice.club.service;
 
 import com.example.clubMicroservice.club.entity.Club;
 import com.example.clubMicroservice.club.repository.ClubRepository;
+import com.example.clubMicroservice.eventRepository.ClubEventRepository;
 import com.example.clubMicroservice.specifications.ClubSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,9 +17,12 @@ public class ClubService {
 
     private final ClubRepository clubRepository;
 
+    private final ClubEventRepository clubEventRepository;
+
     @Autowired
-    public ClubService(ClubRepository clubRepository){
+    public ClubService(ClubRepository clubRepository, ClubEventRepository clubEventRepository){
         this.clubRepository = clubRepository;
+        this.clubEventRepository = clubEventRepository;
     }
 
 
@@ -29,6 +33,7 @@ public class ClubService {
      */
     public void deleteClub(Club club){
         this.clubRepository.delete(club);
+        this.clubEventRepository.deleteClub(club.getId());
     }
 
 
@@ -73,6 +78,7 @@ public class ClubService {
      */
     public void saveClub(Club newClub){
         this.clubRepository.save(newClub);
+        this.clubEventRepository.saveClub(newClub.getId());
     }
 
 }

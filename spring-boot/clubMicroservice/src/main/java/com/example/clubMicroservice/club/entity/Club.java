@@ -19,7 +19,6 @@ import java.util.UUID;
 public class Club implements Comparable<Club>, Serializable{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     private UUID id;
 
