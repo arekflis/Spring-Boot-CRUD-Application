@@ -1,5 +1,6 @@
 package com.example.playerMicroservice.player.service;
 
+import com.example.playerMicroservice.club.entity.Club;
 import com.example.playerMicroservice.club.repository.ClubRepository;
 import com.example.playerMicroservice.player.entity.Player;
 import com.example.playerMicroservice.player.repository.PlayerRepository;
@@ -8,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PlayerService {
@@ -77,8 +76,15 @@ public class PlayerService {
 
         if (nationality != null) specification = specification.and(PlayerSpecifications.playersWithNationality(nationality));
 
-        if (clubID != null && this.clubRepository.findById(clubID).isPresent()){
-            specification = specification.and(PlayerSpecifications.playersFromClub(this.clubRepository.findById(clubID).get()));
+        if (clubID != null){
+            Optional<Club> searchedClub = this.clubRepository.findById(clubID);
+
+            if (searchedClub.isPresent()){
+                specification = specification.and(PlayerSpecifications.playersFromClub(searchedClub.get()));
+            }
+            else{
+                return Collections.emptyList();
+            }
         }
 
         return this.playerRepository.findAll(specification);

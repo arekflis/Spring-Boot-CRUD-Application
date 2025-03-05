@@ -4,6 +4,7 @@ package com.example.playerMicroservice.player.DTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -17,6 +18,9 @@ import java.util.UUID;
 @EqualsAndHashCode
 @ToString
 public class PatchPlayerRequest {
+
+    @NotBlank(message = "ImageURL is a required field")
+    private String imageURL;
 
     @NotNull(message = "JerseyNumber is a required field")
     @Min(value = 1, message = "JerseyNumber should be greater than 0")

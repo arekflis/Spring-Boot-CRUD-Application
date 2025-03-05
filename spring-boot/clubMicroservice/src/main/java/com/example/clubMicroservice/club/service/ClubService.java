@@ -27,7 +27,7 @@ public class ClubService {
 
 
     /**
-     * Function to delete a club.
+     * Function to delete a club and send request to the player microservice.
      *
      * @param club - the club to be deleted
      */
@@ -72,13 +72,22 @@ public class ClubService {
 
 
     /**
-     * Function to add a new club.
+     * Function to add a new club and send request to the player microservice.
      *
      * @param newClub - the club to be added
      */
     public void saveClub(Club newClub){
         this.clubRepository.save(newClub);
         this.clubEventRepository.saveClub(newClub.getId());
+    }
+
+    /**
+     * Function to add an exemplary club.
+     *
+     * @param exemplaryClub- the club to be added
+     */
+    public void saveExemplaryClub(Club exemplaryClub){
+        this.clubRepository.save(exemplaryClub);
     }
 
 }

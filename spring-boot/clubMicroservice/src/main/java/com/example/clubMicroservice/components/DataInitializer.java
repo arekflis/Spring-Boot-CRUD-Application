@@ -44,7 +44,7 @@ public class DataInitializer {
                 .captain("Virgil van Dijk")
                 .build();
 
-        this.clubService.saveClub(liverpool);
+        this.clubService.saveExemplaryClub(liverpool);
     }
 
     private void createManUnited(){
@@ -61,7 +61,7 @@ public class DataInitializer {
                 .captain("Bruno Fernandes")
                 .build();
 
-        this.clubService.saveClub(manchesterUnited);
+        this.clubService.saveExemplaryClub(manchesterUnited);
     }
 
     private void createManCity(){
@@ -78,7 +78,7 @@ public class DataInitializer {
                 .captain("Kyle Walker")
                 .build();
 
-        this.clubService.saveClub(manchesterCity);
+        this.clubService.saveExemplaryClub(manchesterCity);
     }
 
     private void createArsenal(){
@@ -95,7 +95,7 @@ public class DataInitializer {
                 .captain("Martin Odegaard")
                 .build();
 
-        this.clubService.saveClub(arsenal);
+        this.clubService.saveExemplaryClub(arsenal);
     }
 
 }

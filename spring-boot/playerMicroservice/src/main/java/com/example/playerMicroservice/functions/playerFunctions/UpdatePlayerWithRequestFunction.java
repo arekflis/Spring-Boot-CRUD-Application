@@ -19,7 +19,7 @@ public class UpdatePlayerWithRequestFunction implements BiFunction<Player, Patch
                 .nationality(player.getNationality())
                 .placeOfBirth(player.getPlaceOfBirth())
                 .dateOfBirth(player.getDateOfBirth())
-                .imageURL(player.getImageURL())
+                .imageURL(patchPlayerRequest.getImageURL())
                 .jerseyNumber(patchPlayerRequest.getJerseyNumber())
                 .appearances(patchPlayerRequest.getAppearances())
                 .goals(patchPlayerRequest.getGoals())
