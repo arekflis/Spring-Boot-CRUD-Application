@@ -32,30 +32,27 @@ Project Structure:
 
 ## How to Run This Project
 
-- ⚠ **Attention:** You must have Docker installed on your machine! 🐳
+⚠ **Attention:** You must have Docker installed on your machine! 🐳
 
-    1. Clone the repository.
+1. Clone the repository.
 
+```
+git clone https://github.com/arekflis/Spring-Boot-CRUD-Application.git
+```
 
-    ```
-    git clone https://github.com/arekflis/Spring-Boot-CRUD-Application.git
-    ```
+2. Navigate to the ```docker``` folder.
 
-    2. Navigate to the ```docker``` folder.
+```
+cd docker
+```
 
+3. Run the project using the ```docker-compose``` file.
 
-    ```
-    cd docker
-    ```
+```
+docker-compose up --build
+```
 
-    3. Run the project using the ```docker-compose``` file.
-
-
-    ```
-    docker-compose up --build
-    ```
-
-    4. Now you can send requests to the **Gateway Microservice** at ```http://localhost:8080```.
+4. Now you can send requests to the **Gateway Microservice** at ```http://localhost:8080```.
 
 
 ## Future Plans 
