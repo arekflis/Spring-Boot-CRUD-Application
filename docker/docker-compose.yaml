@@ -19,7 +19,7 @@ services:
         POSTGRES_PASSWORD: "player_password"
 
     playerMicroservice:
-      image: player:0.0.1-SNAPSHOT
+      image: ghcr.io/arekflis/backend-players:latest
       restart: always
       environment:
         SPRING_DATASOURCE_URL: "jdbc:postgresql://player-database:5432/player_db"
@@ -29,7 +29,7 @@ services:
         SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.PostgreSQLDialect"
 
     clubMicroservice:
-      image: club:0.0.1-SNAPSHOT
+      image: ghcr.io/arekflis/backend-clubs:latest
       restart: always
       environment:
         PLAYERS_MICROSERVICE_URL: "http://playerMicroservice:8080"
@@ -40,7 +40,7 @@ services:
         SPRING_JPA_DATABASE_PLATFORM: "org.hibernate.dialect.PostgreSQLDialect"
 
     gatewayMicroservice:
-      image: gateway:0.0.1-SNAPSHOT
+      image: ghcr.io/arekflis/backend-gateway:latest
       restart: always
       ports:
         - "8080:8080"
